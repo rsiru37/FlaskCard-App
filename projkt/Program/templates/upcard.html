@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updatecard</title>
+</head>
+<body>
+<h1>Updating Card </h1>
+<form action="/{{a}}/{{deckname}}/{{cn}}/upcard/" method="POST">
+    <label>Card Face </label>
+    <input type="text" name="cface" required=True/>
+    <label>Card Back</label>
+    <input type="text" name="cback" required= True/>
+    <input type="submit" value="SUBMIT"/>
+</form>
+<br>
+<a href = '/login/{{a}}/'>HOME</a>
+<br>
+<a href ='/'>LOGOUT</a>
+</body>
+</html>

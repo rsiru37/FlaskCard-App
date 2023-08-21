@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ans</title>
+    <style>
+  table.center{ margin-left: auto; margin-right: auto;}
+  table, th, td { border: 5px solid black; border-collapse: collapse;font-size:150px}
+</style>
+</head>
+<body>
+<h2>Deck Name : {{deckname}}</h2>
+<table class="center">
+  <tr>
+    <th>{{a}}</th>
+    <th>{{b}}</th>
+  </tr>
+</table>
+<form action="/{{u}}/{{deckname}}/{{n+1}}" method="POST">
+    <label>EASY : </label>
+    <input type="radio" name="score" value="EASY" required=True/>
+    <br>
+    <label>HARD: </label>
+    <input type="radio" name="score" value="HARD" required=True/>
+    <br><br>
+    <input type ='submit' value = 'NEXT'/>
+</form>
+</body>
+</html>

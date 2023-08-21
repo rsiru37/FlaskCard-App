@@ -1,0 +1,356 @@
+openapi: 3.0.0
+info:
+  title: Flashcard Project_raj
+  description: >
+    <div>API specification for my Application
+    
+    <h3> Users Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>uid</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>Unique,Not Null</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <h3> Decks Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>did</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>dname</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>duid</td>
+        <td>Integer</td>
+        <td>Foreign Key('Users.uid'), Not Null</td>
+      </tr>      
+      <tr>
+        <td>deck_score</td>
+        <td>String</td>
+        <td>NA</td>
+      </tr>         
+    </tbody>
+    </table>
+
+
+    <h3> Cards Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>card_no</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>card_face</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>card_back</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>dcid</td>
+        <td>Integer</td>
+        <td>ForeignKey('decks.did'), Not Null</td>
+      </tr>
+      <tr>
+        <td>card_score</td>
+        <td>Integer</td>
+        <td>Unique, Nullable</td>
+      </tr>
+      
+    </tbody>
+    </table>
+
+    <h3> Error Codes </h3> 
+    <table>
+      <thead>
+        <th>Resource</th>
+        <th>Error Code</th>
+        <th>Message</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Course</td>
+        <td>COURSE001</td>
+        <td>Course Name is required and should be string.</td>
+      </tr>
+      <tr>
+        <td>Course</td>
+        <td>COURSE002</td>
+        <td>Course Code is required and should be string.</td>
+      </tr>
+      <tr>
+        <td>Course</td>
+        <td>COURSE003</td>
+        <td> Course Description should be string.</td>
+      </tr>
+      <tr>
+        <td>Student</td>
+        <td>STUDENT001</td>
+        <td>Roll Number required and should be String </td>
+      </tr>
+      <tr>
+        <td>Student</td>
+        <td>STUDENT002</td>
+        <td>First Name is required and should be String </td>
+      </tr>
+      <tr>
+        <td>Student</td>
+        <td>STUDENT003</td>
+        <td>Last Name is String </td>
+      </tr>
+      <tr>
+        <td>Enrollment</td>
+        <td>ENROLLMENT001</td>
+        <td>Course does not exist</td>
+      </tr>
+      <tr>
+        <td>Enrollment</td>
+        <td>ENROLLMENT002</td>
+        <td>Student does not exist.</td>
+      </tr>  
+      <tr>
+        <td>Enrollment</td>
+        <td>ENROLLMENT003</td>
+        <td>Course Code is required and should be string.</td>
+      </tr> 
+    </tbody>
+    </table>
+
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000/
+paths:
+  /api/user/:
+    description: End point to create New User resource
+    post:
+      description: Operation to create New User resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  example: user1
+      responses:
+        '200':
+          description: Successfully Created
+        
+        '409':
+          description: user already exists
+        '500':
+          description: Internal Server Error
+  /api/{user_name}:
+    description: Url to read, update and delete the decks resource.
+    get:
+      description: Operation to read a Deck by a User
+      parameters:
+        - in: path
+          name: user_name
+          required: true
+          schema:
+            type: string
+            example: user1
+      responses:
+        '200':
+          description: Request Successful,Lists out all the decks created by the User
+      
+        '500':
+          description: Internal server error
+        '409':
+          description: User not found
+    post:
+      description: Operation to create new Decks for user 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deck_name:
+                  type: string
+                  example: New
+      responses:
+        '200':
+          description: Successfully Created
+        '409':
+          description: User doesnot exist
+        '500':
+          description: Internal Server Error
+        '401':
+          description: Deck already exists for this user
+  /api/{user_name}/{dname}:
+    put:
+      description: Operation to update the Decks resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deck_name:
+                  type: string
+                  example: Anythingulike
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  student_id:
+                    type: integer
+                    example: 101
+                  first_name:
+                    type: string
+                    example: Narendra
+                  last_name:
+                    type: string
+                    example: Mishra
+                  roll_number:
+                    type: string
+                    example: MA19M010
+        '405':
+          description: Deck Doesnot Exist, Update not Possible
+        '500':
+          description: Internal Server Error
+        '409':
+          description: User Doesnot Exist
+    delete:
+      description: Operation to delete any Deck
+      responses:
+        '200':
+          description: Successfully Deleted
+        '500':
+          description: Internal Server Error
+        '405':
+          description: Deck doesnot Exist
+        '409':
+          description: User doesnot Exist
+
+  
+  /api/{user_name}/{dname}/cards:
+    description: Url to get the the list of cards a user has
+    get:
+      description: Gets the list of all cards of user under a deck.
+      responses:
+        '200':
+          description: Request Successful,Gives list of all cards under a deck
+        '405':
+          description: Deck doesnot exist
+        '409':
+          description: User doesnot exist
+        '500':
+          description: Internal Server Error
+    post:
+      description: Add new Cards in a decek
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_face:
+                  type: String
+                  example: 12345
+                card_back:
+                  type: String
+                  example: 6789
+      responses:
+        '200':
+          description: Card Successfully Added
+        '405':
+          description: Deck doesnot exist
+        '500':
+          description: Internal Server Error
+        '409':
+          description: User doesnot exist
+
+  /api/{user_name}/{dname}/cards/{card_no}:
+     put:
+      description: Operation to update the Cards in a Deck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_face:
+                  type: String
+                  example: new1
+                card_back:
+                  type: String
+                  example: new2
+      responses:
+        '200':
+          description: Successfully updated
+        '405':
+          description: Deck Doesnot Exist, Update not Possible
+        '500':
+          description: Internal Server Error
+        '409':
+          description: User Doesnot Exist
+        '400':
+          description: Card number invalid
+     delete:
+      description: Deleting Cards in a Deck
+      responses:
+        '200':
+          description: Successfully deleted
+        '400':
+          description: Card number invalid
+        '405':
+          description: Deck doesnot exist
+        '409':
+          description: User doesnot exist
+        '500':
+          description: Internal Server Error
+          
+  /api/{did}:
+    description: Url to retrieve average score of Deck
+    get:
+      description: Get the Score of Deck (last visited)
+      responses:
+        '200':
+          description: Request Successful,Gives the score of deck
+      
+        '500':
+          description: Internal server error
+        '405':
+          description: Deck not Found

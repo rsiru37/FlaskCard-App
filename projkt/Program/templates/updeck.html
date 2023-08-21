@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updeck</title>
+</head>
+<body>
+<p>Hello {{a}}</p>
+<h1>Updating Title of {{b}} Deck</h1>
+<form action="/{{a}}/updeck/{{b}}" method="POST">
+    <label>Deck Name </label>
+    <input type="text" name="dname" required=True/>
+    <input type="submit" value="SUBMIT">
+</form>
+<a href = '/login/{{a}}/'>HOME</a>
+</body>
+</html>

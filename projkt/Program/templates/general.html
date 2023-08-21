@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>General</title>
+</head>
+<body>
+<p>Welcome {{a}}</p>
+<h1>List Of Decks</h1>
+{% if b|length==0 %}
+   <p>No Decks Found</p>
+{% else %}
+    <table border=1>
+        <tr>
+        <th>Deck No.</th>
+        <th>Deck Name</th>
+        <th>Deck Actions</th>
+        <th>Card Actions</th>
+        <th>Test Yourself</th>
+        <th>Average Score</th>
+        </tr>
+        {% for i in b %}
+        <tr>
+            <td>{{i['did']}}</td>
+            <td>{{i['dname']}}</td>
+            <td> <a href="/{{a}}/updeck/{{i['dname']}}">UPDATE</a> <a href="/{{a}}/deldeck/{{i['dname']}}">DELETE</a></td>
+            <td> <a href="/{{a}}/card_list/{{i['dname']}}">MODIFY</a></td>
+            <td><a href="/{{a}}/{{i['dname']}}/0"> RUN </a></td>
+            <td>{{i['deck_score']}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endif %}
+<br>
+<a href ="/{{a}}/addeck"> + ADD DECK</a><br>
+<br>
+<a href="/">LOGOUT</a>
+</body>
+</html>
+
